@@ -1,4 +1,5 @@
 #!/bin/bash 
+cd ~/
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install python-pip python-setuptools python-yaml python-distribute python-docutil python-dateutil python-six
