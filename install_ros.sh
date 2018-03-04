@@ -71,5 +71,16 @@ sudo checkinstall make install
 cd ~/ros_catkin_ws/external_src
 sudo apt-get install libboost-filesystem-dev libxml2-dev
 wget http://downloads.sourceforge.net/project/collada-dom/Collada%20DOM/Collada%20DOM%202.4/collada-dom-2.4.0.tgz
-#Note that sourceforge is currently down so this last command hasn't worked
-#Navigate to /ros_catkin_ws/external_src and try again
+tar -xzf collada-dom-2.4.0.tgz
+cd collada-dom-2.4.0
+cmake .
+sudo checkinstall make install
+cd ~/ros_catkin_ws
+rosdep install --from-paths src --ignore-src --rosdistro indigo -y -r --os=debian:jessie
+#Note that this next command crashes without the '-j2', presumably due to lack of memory
+sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/indigo -j2
+rosinstall_generator mavros --rosdistro indigo --deps --wet-only --exclude roslisp --tar > indigo-custom_ros.rosinstall
+wstool merge -t src indigo-custom_ros.rosinstall
+wstool update -t src
+rosdep install --from-paths src --ignore-src --rosdistro indigo -y -r --os=debian:jessie
+sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/indigo -j1
