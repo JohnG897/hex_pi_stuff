@@ -1,0 +1,1 @@
+roslaunch mavros px4.launch fcu_url:=tcp-l://192.168.1.81:5760 ros_master_uri:=http://Ivan:58612
