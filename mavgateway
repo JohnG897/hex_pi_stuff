@@ -18,7 +18,7 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Mavproxy based mavlink to wifi gateway"
 NAME=mavproxy.py
 DAEMON=/usr/local/bin/$NAME
-DAEMON_ARGS="--master=/dev/ttyMFD1,115200 --out=udpin:0.0.0.0:14550 --daemon"
+DAEMON_ARGS="--master=tcp:192.254.91.1:5762,57600 --out=udpin:0.0.0.0:2000 --daemon"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
@@ -49,7 +49,7 @@ do_start()
 	start-stop-daemon --start --pidfile $PIDFILE --exec $DAEMON --test -- $DAEMON_ARGS
 	start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON --test > /dev/null \
 		|| return 1
-	start-stop-daemon --start --background --make-pidfile --chuid edison --chdir /tmp --quiet --pidfile $PIDFILE --exec $DAEMON -- \
+	start-stop-daemon --start --background --make-pidfile --chuid pi --chdir /tmp --quiet --pidfile $PIDFILE --exec $DAEMON -- \
 		$DAEMON_ARGS </dev/null \
 		|| return 2
 	# Add code here, if necessary, that waits for the process to be ready
